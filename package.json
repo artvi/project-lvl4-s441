@@ -9,7 +9,7 @@
     "node": "9"
   },
   "scripts": {
-    "start": "babel-node ./dist/bin/slack.js",
+    "start": "nodemon ./dist/bin/slack.js",
     "test": "jest",
     "build-server": "babel server --out-dir dist --source-maps inline",
     "build-app": "npx webpack -p --env production",
@@ -63,6 +63,7 @@
     "redux-form": "^8.1.0",
     "redux-thunk": "^2.3.0",
     "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0",
     "style-loader": "^0.23.1",
     "webpack": "^4.27.1"
   },
