@@ -7,8 +7,8 @@ import NewChannelForm from './NewChannelForm';
 const App = () => (
   <div className="row">
     <div className="col-3">
-      <ChannelsList />
       <NewChannelForm />
+      <ChannelsList />
     </div>
     <div className="col-5">
       <NewMessageForm />

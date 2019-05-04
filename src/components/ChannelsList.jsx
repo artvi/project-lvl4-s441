@@ -1,5 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { ListGroup } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import * as actions from '../actions';
 
 const mapStateToProps = (state) => {
@@ -41,31 +44,29 @@ class ChannelsList extends React.Component {
     if (channels.length === 0) {
       return null;
     }
-    const selectedChannelClasses = 'list-group-item active';
-    const channelClasses = 'list-group-item';
+
     return (
       <div className="channels">
-        <ul className="list-group">
-          {channels.map(({ id, name, removable }) => {
-            const buttons = (
-              <div>
-                <button onClick={this.handleClick(id)} type="button" className="btn btn-primary">Edit</button>
-                <button onClick={this.handleRemove(id)} type="button" className="btn btn-danger">Remove</button>
-              </div>
-            );
-
-            return (
-              <React.Fragment key={id}>
-                <li className={id === currentChannelId ? selectedChannelClasses : channelClasses}>
-                  <button onClick={this.handleClick(id)} type="button" className="btn btn-primary">
-                    {name}
-                  </button>
-                  {removable ? buttons : null}
-                </li>
-              </React.Fragment>
-            );
-          })}
-        </ul>
+        <ListGroup>
+          {channels.map(({ id, name, removable }) => (
+            <React.Fragment key={id}>
+              <ListGroup.Item
+                action
+                active={id === currentChannelId}
+                onClick={this.handleClick(id)}
+              >
+                {name}
+                {removable && (
+                <FontAwesomeIcon
+                  className="float-right"
+                  icon={faTrashAlt}
+                  onClick={this.handleRemove(id)}
+                />
+                )}
+              </ListGroup.Item>
+            </React.Fragment>
+          ))}
+        </ListGroup>
       </div>
     );
   }
