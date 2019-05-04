@@ -2,15 +2,24 @@ import { createAction } from 'redux-actions';
 import axios from 'axios';
 
 
-export const addChannel = createAction('NEW_CHANNEL_ADD');
-
 export const sendMessageRequest = createAction('MESSAGE_SEND_REQUEST');
 export const sendMessageSuccess = createAction('MESSAGE_SEND_SUCCESS');
 export const sendMessageFailure = createAction('MESSAGE_SEND_FAILURE');
 
-// export const fetchMessagesRequest = createAction('MESSAGES_FETCH_REQUEST');
-// export const fetchMessagesSuccess = createAction('MESSAGES_FETCH_SUCCESS');
-// export const fetchMessagesFailure = createAction('MESSAGES_FETCH_FAILURE');
+export const addChannelRequest = createAction('CHANNEL_ADD_REQUEST');
+export const addChannelSuccess = createAction('CHANNEL_ADD_SUCCESS');
+export const addChannelFailure = createAction('CHANNEL_ADD_FAILURE');
+
+
+export const removeChannelRequest = createAction('CHANNEL_REMOVE_REQUEST');
+export const removeChannelSuccess = createAction('CHANNEL_REMOVE_SUCCESS');
+export const removeChannelFailure = createAction('CHANNEL_REMOVE_FAILURE');
+
+export const fetchNewMessage = createAction('MESSAGE_FETCH');
+export const fetchNewChannel = createAction('CHANNEL_FETCH_NEW');
+export const fetchRemovedChannel = createAction('CHANNEL_FETCH_REMOVED');
+export const moveToChannel = createAction('CURRENT_CHANNEL_CHANGE');
+
 
 export const sendMessage = ({ message }) => async (dispatch) => {
   dispatch(sendMessageRequest());
@@ -20,6 +29,17 @@ export const sendMessage = ({ message }) => async (dispatch) => {
   dispatch(sendMessageSuccess({ message }));
 };
 
-export const fetchMessage = createAction('MESSAGE_FETCH');
 
-export const moveToChannel = createAction('CURRENT_CHANNEL_CHANGE');
+export const addChannel = ({ channel }) => async (dispatch) => {
+  dispatch(addChannelRequest());
+  const data = { attributes: channel };
+  await axios.post('api/v1/channels/', { data });
+  dispatch(addChannelSuccess({ channel }));
+};
+
+export const removeChannel = ({ id }) => async (dispatch) => {
+  dispatch(removeChannelRequest());
+  const data = { attributes: id };
+  await axios.delete(`api/v1/channels/${id}`, { data });
+  dispatch(removeChannelSuccess({ id }));
+};

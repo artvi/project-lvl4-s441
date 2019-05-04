@@ -1,38 +1,8 @@
 import { combineReducers } from 'redux';
 import { handleActions } from 'redux-actions';
 import { reducer as formReducer } from 'redux-form';
+import _ from 'lodash';
 import * as actions from '../actions';
-
-const channels = handleActions({
-  [actions.addChannel](state, { payload: { channel } }) {
-    const { byId, allIds } = state;
-    return {
-      byId: { ...byId, [channel.id]: channel },
-      allIds: [channel.id, ...allIds],
-    };
-  },
-}, { byId: {}, allIds: [] });
-
-const messages = handleActions({
-  [actions.sendMessageSuccess](state, { payload: { message } }) {
-    const { byChannelId } = state;
-    const { channelId } = message;
-    const messageList = byChannelId[channelId];
-    const updatedMessageList = [...messageList, message];
-    return {
-      byChannelId: { ...byChannelId, [channelId]: updatedMessageList },
-    };
-  },
-  [actions.fetchMessage](state, { payload: { message } }) {
-    const { byChannelId } = state;
-    const { channelId } = message;
-    const messageList = byChannelId[channelId];
-    const updatedMessageList = [...messageList, message];
-    return {
-      byChannelId: { ...byChannelId, [channelId]: updatedMessageList },
-    };
-  },
-}, { byId: {}, allIds: [] });
 
 const messageSendingState = handleActions({
   [actions.sendMessageRequest]() {
@@ -46,15 +16,76 @@ const messageSendingState = handleActions({
   },
 }, 'none');
 
+const channelAddingState = handleActions({
+  [actions.addChannelRequest]() {
+    return 'requested';
+  },
+  [actions.addChannelSuccess]() {
+    return 'success';
+  },
+  [actions.addChannelFailure]() {
+    return 'failure';
+  },
+}, 'none');
+
+const channels = handleActions({
+  [actions.fetchNewChannel](state, { payload: { channel } }) {
+    const { byId, allIds } = state;
+    return {
+      byId: { ...byId, [channel.id]: channel },
+      allIds: [...allIds, channel.id],
+    };
+  },
+  [actions.fetchRemovedChannel](state, { payload: { id } }) {
+    const { byId, allIds } = state;
+    return {
+      byId: _.omit(byId, id),
+      allIds: allIds.filter(channelId => channelId !== id),
+    };
+  },
+}, { byId: {}, allIds: [] });
+
+
+const messages = handleActions({
+  [actions.fetchNewMessage](state, { payload: { message } }) {
+    const { byChannelId } = state;
+    const { channelId } = message;
+    const messageList = byChannelId[channelId];
+    const updatedMessageList = [...messageList, message];
+    return {
+      byChannelId: { ...byChannelId, [channelId]: updatedMessageList },
+    };
+  },
+  [actions.fetchNewChannel](state, { payload: { channel } }) {
+    const { byChannelId } = state;
+    const { id } = channel;
+    return {
+      byChannelId: { ...byChannelId, [id]: [] },
+    };
+  },
+  [actions.fetchRemovedChannel](state, { payload: { id } }) {
+    const { byChannelId } = state;
+    return {
+      byChannelId: _.omit(byChannelId, id),
+    };
+  },
+}, { byChannelId: [] });
+
+
 const currentChannelId = handleActions({
-  [actions.moveToChannel](state, { payload: id }) {
+  [actions.moveToChannel](state, { payload: { id } }) {
     return id;
   },
+  [actions.fetchRemovedChannel](state, { payload: { id } }) {
+    return state === id ? 1 : state;
+  },
 }, 1);
+
 
 export default combineReducers({
   channels,
   messages,
+  channelAddingState,
   messageSendingState,
   currentChannelId,
   form: formReducer,

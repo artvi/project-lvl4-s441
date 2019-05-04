@@ -14,13 +14,25 @@ const mapStateToProps = (state) => {
 const actionCreators = {
   addChannel: actions.addChannel,
   moveToChannel: actions.moveToChannel,
+  removeChannel: actions.removeChannel,
+  removeChannelFailure: actions.removeChannelFailure,
 };
 
 class ChannelsList extends React.Component {
   handleClick = id => (e) => {
     e.preventDefault();
     const { moveToChannel } = this.props;
-    moveToChannel(id);
+    moveToChannel({ id });
+  }
+
+  handleRemove = id => async (e) => {
+    e.preventDefault();
+    const { removeChannel, removeChannelFailure } = this.props;
+    try {
+      await removeChannel({ id });
+    } catch (err) {
+      removeChannelFailure();
+    }
   }
 
   render() {
@@ -34,15 +46,25 @@ class ChannelsList extends React.Component {
     return (
       <div className="channels">
         <ul className="list-group">
-          {channels.map(({ id, name }) => (
-            <React.Fragment key={id}>
-              <li className={id === currentChannelId ? selectedChannelClasses : channelClasses}>
-                <button onClick={this.handleClick(id)} type="button" className="btn btn-primary">
-                  {name}
-                </button>
-              </li>
-            </React.Fragment>
-          ))}
+          {channels.map(({ id, name, removable }) => {
+            const buttons = (
+              <div>
+                <button onClick={this.handleClick(id)} type="button" className="btn btn-primary">Edit</button>
+                <button onClick={this.handleRemove(id)} type="button" className="btn btn-danger">Remove</button>
+              </div>
+            );
+
+            return (
+              <React.Fragment key={id}>
+                <li className={id === currentChannelId ? selectedChannelClasses : channelClasses}>
+                  <button onClick={this.handleClick(id)} type="button" className="btn btn-primary">
+                    {name}
+                  </button>
+                  {removable ? buttons : null}
+                </li>
+              </React.Fragment>
+            );
+          })}
         </ul>
       </div>
     );

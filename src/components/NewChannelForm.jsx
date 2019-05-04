@@ -1,6 +1,5 @@
 import React from 'react';
 import _ from 'lodash';
-import cookies from 'js-cookie';
 import { connect } from 'react-redux';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
 import * as actions from '../actions';
@@ -11,29 +10,25 @@ const mapStateToProps = (state) => {
 };
 
 const actionCreators = {
-  sendMessage: actions.sendMessage,
-  sendMessageFailure: actions.sendMessageFailure,
+  addChannel: actions.addChannel,
+  addChannelFailure: actions.addChannelFailure,
 };
 
-class NewMessageForm extends React.Component {
+class NewChannelForm extends React.Component {
   handleSubmit = async (values) => {
     const {
-      sendMessageFailure,
-      sendMessage,
+      addChannel,
+      addChannelFailure,
       reset,
-      currentChannelId,
     } = this.props;
-
-    const message = {
+    const channel = {
       ...values,
       id: _.uniqueId(),
-      channelId: currentChannelId,
-      author: cookies.get('username'),
     };
     try {
-      await sendMessage({ message });
+      await addChannel({ channel });
     } catch (err) {
-      sendMessageFailure();
+      addChannelFailure();
       throw new SubmissionError({ _error: err.message });
     }
     reset();
@@ -46,17 +41,17 @@ class NewMessageForm extends React.Component {
     return (
       <form className="form-inline" onSubmit={handleSubmit(this.handleSubmit)}>
         <div className="form-group mx-3">
-          <Field placeholder=" enter your message" name="text" required disabled={submitting} component="input" type="text" />
+          <Field placeholder="Create Your Own Channel" name="name" required disabled={submitting} component="input" type="text" />
         </div>
-        <input type="submit" disabled={pristine || submitting} className="btn btn-primary btn-sm" value="Send" />
+        <input type="submit" disabled={pristine || submitting} className="btn btn-primary btn-sm" value="Create" />
         {error && <div className="ml-3">{error}</div>}
       </form>
     );
   }
 }
 
-const ConnectedNewMessageForm = connect(mapStateToProps, actionCreators)(NewMessageForm);
+const ConnectedNewChannelForm = connect(mapStateToProps, actionCreators)(NewChannelForm);
 
 export default reduxForm({
-  form: 'newMessage',
-})(ConnectedNewMessageForm);
+  form: 'newChannel',
+})(ConnectedNewChannelForm);

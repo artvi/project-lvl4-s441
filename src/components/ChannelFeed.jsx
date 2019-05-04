@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import * as actions from '../actions';
 
 const mapStateToProps = (state) => {
   const { currentChannelId, messages: { byChannelId } } = state;

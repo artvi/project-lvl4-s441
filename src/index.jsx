@@ -19,19 +19,13 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-const userName = faker.name.findName();
-cookies.set('username', userName);
-
-const socket = io();
-
-const initState = normalize(gon);
 
 /* eslint-disable no-underscore-dangle */
 const ext = window.__REDUX_DEVTOOLS_EXTENSION__;
 /* eslint-enable */
 const devtoolsMiddleware = ext && ext();
 
-
+const initState = normalize(gon);
 const store = createStore(
   reducers,
   initState,
@@ -41,13 +35,28 @@ const store = createStore(
   ),
 );
 
+
+const userName = faker.name.findName();
+cookies.set('username', userName);
+
+
+const socket = io();
 socket.on('newMessage', ({ data }) => {
   const message = data.attributes;
-  const { fetchMessage } = actions;
-  if (message.author !== userName) {
-    store.dispatch(fetchMessage({ message }));
-  }
+  const { fetchNewMessage } = actions;
+  store.dispatch(fetchNewMessage({ message }));
 });
+socket.on('newChannel', ({ data }) => {
+  const channel = data.attributes;
+  const { fetchNewChannel } = actions;
+  store.dispatch(fetchNewChannel({ channel }));
+});
+socket.on('removeChannel', ({ data }) => {
+  const { id } = data;
+  const { fetchRemovedChannel } = actions;
+  store.dispatch(fetchRemovedChannel({ id }));
+});
+
 
 render(
   <Provider store={store}>
