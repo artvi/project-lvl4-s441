@@ -53,7 +53,7 @@ export const removeChannel = ({ id }) => async (dispatch) => {
 };
 
 export const renameChannel = ({ channel }) => async (dispatch) => {
-  dispatch(removeChannelRequest());
+  dispatch(renameChannelRequest());
   const data = { attributes: channel };
   const { id } = channel;
   await axios.patch(`api/v1/channels/${id}`, { data });
