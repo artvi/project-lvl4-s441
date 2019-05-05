@@ -53,7 +53,7 @@ class NewMessageForm extends React.Component {
     return (
       <Form onSubmit={handleSubmit(this.handleSubmit)}>
         <InputGroup className="mb-3">
-          <Field placeholder=" your message" className="form-control" component="input" name="text" disabled={submitting} />
+          <Field placeholder=" Your message" className="form-control" component="input" name="text" disabled={submitting} />
           <InputGroup.Append>
             <Button disabled={pristine || submitting} variant="outline-secondary" type="submit">Send</Button>
           </InputGroup.Append>

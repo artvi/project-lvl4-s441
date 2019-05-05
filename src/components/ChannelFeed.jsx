@@ -16,9 +16,9 @@ class ChannelFeed extends React.PureComponent {
   render() {
     const { messages } = this.props;
 
-    if (messages.length === 0) {
-      return null;
-    }
+    // if (messages.length === 0) {
+    //   return null;
+    // }
 
     // return (
     //   <div className="messages">
@@ -36,8 +36,8 @@ class ChannelFeed extends React.PureComponent {
     // );
 
     return (
-      <Jumbotron fluid>
-        {messages.map(({ id, text, author }) => (
+      <Jumbotron fluid className="h-100 pl-3 pt-3">
+        {messages.length > 0 && messages.map(({ id, text, author }) => (
           <React.Fragment key={id}>
             <div>
               <b>{`${author}`}</b>

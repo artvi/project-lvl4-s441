@@ -45,7 +45,7 @@ class ChannelsList extends React.Component {
     }
 
     const renderButtons = (id, name) => (
-      <div>
+      <React.Fragment>
         <FontAwesomeIcon
           className="float-right ml-2"
           icon={faTrashAlt}
@@ -56,7 +56,7 @@ class ChannelsList extends React.Component {
           icon={faEdit}
           onClick={this.handleOpenModal(id, name, 'edit')}
         />
-      </div>
+      </React.Fragment>
     );
 
     return (
