@@ -21,6 +21,8 @@ const actionCreators = {
   openModal: actions.openModal,
 };
 
+@connect(mapStateToProps, actionCreators)
+
 class ChannelsList extends React.Component {
   handleClick = id => (e) => {
     e.preventDefault();
@@ -78,4 +80,4 @@ class ChannelsList extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, actionCreators)(ChannelsList);
+export default ChannelsList;

@@ -16,6 +16,11 @@ const actionCreators = {
   sendMessageFailure: actions.sendMessageFailure,
 };
 
+@connect(mapStateToProps, actionCreators)
+@reduxForm({
+  form: 'newMessage',
+})
+
 class NewMessageForm extends React.Component {
   handleSubmit = async (values) => {
     const {
@@ -59,8 +64,4 @@ class NewMessageForm extends React.Component {
   }
 }
 
-const ConnectedNewMessageForm = connect(mapStateToProps, actionCreators)(NewMessageForm);
-
-export default reduxForm({
-  form: 'newMessage',
-})(ConnectedNewMessageForm);
+export default NewMessageForm;

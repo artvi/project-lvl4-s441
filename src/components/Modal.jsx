@@ -16,6 +16,8 @@ const actionCreators = {
   removeChannelFailure: actions.removeChannelFailure,
 };
 
+@connect(mapStateToProps, actionCreators)
+
 class MyModal extends React.Component {
   handleRemove = async (e) => {
     e.preventDefault();
@@ -76,4 +78,4 @@ class MyModal extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, actionCreators)(MyModal);
+export default MyModal;

@@ -15,6 +15,12 @@ const actionCreators = {
   closeModal: actions.closeModal,
 };
 
+@connect(mapStateToProps, actionCreators)
+
+@reduxForm({
+  form: 'newChannelName',
+})
+
 class NewChannelForm extends React.Component {
   handleSubmit = async (values) => {
     const {
@@ -56,8 +62,4 @@ class NewChannelForm extends React.Component {
   }
 }
 
-const ConnectedNewChannelForm = connect(mapStateToProps, actionCreators)(NewChannelForm);
-
-export default reduxForm({
-  form: 'newChannelName',
-})(ConnectedNewChannelForm);
+export default NewChannelForm;

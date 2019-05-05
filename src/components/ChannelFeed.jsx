@@ -10,6 +10,7 @@ const mapStateToProps = (state) => {
   };
 };
 
+@connect(mapStateToProps)
 
 class ChannelFeed extends React.PureComponent {
   render() {
@@ -50,4 +51,4 @@ class ChannelFeed extends React.PureComponent {
   }
 }
 
-export default connect(mapStateToProps)(ChannelFeed);
+export default ChannelFeed;
