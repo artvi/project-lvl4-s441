@@ -1,5 +1,6 @@
 import { createAction } from 'redux-actions';
 import axios from 'axios';
+import getUrl from '../getUrl';
 
 
 export const sendMessageRequest = createAction('MESSAGE_SEND_REQUEST');
@@ -33,22 +34,21 @@ export const sendMessage = ({ message }) => async (dispatch) => {
   dispatch(sendMessageRequest());
   const data = { attributes: message };
   const { channelId } = message;
-  await axios.post(`api/v1/channels/${message.channelId}/messages`, { data, channelId });
+  await axios.post(getUrl.sendMessage(channelId), { data, channelId });
   dispatch(sendMessageSuccess({ message }));
 };
-
 
 export const addChannel = ({ channel }) => async (dispatch) => {
   dispatch(addChannelRequest());
   const data = { attributes: channel };
-  await axios.post('api/v1/channels/', { data });
+  await axios.post(getUrl.addChannel(), { data });
   dispatch(addChannelSuccess({ channel }));
 };
 
 export const removeChannel = ({ id }) => async (dispatch) => {
   dispatch(removeChannelRequest());
   const data = { attributes: id };
-  await axios.delete(`api/v1/channels/${id}`, { data });
+  await axios.delete(getUrl.removeChannel(id), { data });
   dispatch(removeChannelSuccess({ id }));
 };
 
@@ -56,6 +56,6 @@ export const renameChannel = ({ channel }) => async (dispatch) => {
   dispatch(renameChannelRequest());
   const data = { attributes: channel };
   const { id } = channel;
-  await axios.patch(`api/v1/channels/${id}`, { data });
+  await axios.patch(getUrl.renameChannel(id), { data });
   dispatch(renameChannelSuccess());
 };
