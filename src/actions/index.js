@@ -10,15 +10,23 @@ export const addChannelRequest = createAction('CHANNEL_ADD_REQUEST');
 export const addChannelSuccess = createAction('CHANNEL_ADD_SUCCESS');
 export const addChannelFailure = createAction('CHANNEL_ADD_FAILURE');
 
-
 export const removeChannelRequest = createAction('CHANNEL_REMOVE_REQUEST');
 export const removeChannelSuccess = createAction('CHANNEL_REMOVE_SUCCESS');
 export const removeChannelFailure = createAction('CHANNEL_REMOVE_FAILURE');
 
+export const renameChannelRequest = createAction('CHANNEL_RENAME_REQUEST');
+export const renameChannelSuccess = createAction('CHANNEL_REMAME_SUCCESS');
+export const renameChannelFailure = createAction('CHANNEL_RENAME_FAILURE');
+
 export const fetchNewMessage = createAction('MESSAGE_FETCH');
 export const fetchNewChannel = createAction('CHANNEL_FETCH_NEW');
-export const fetchRemovedChannel = createAction('CHANNEL_FETCH_REMOVED');
+export const fetchRemovedChannelData = createAction('CHANNEL_FETCH_REMOVED');
+export const fetchNewChannelName = createAction('CHANNEL_NAME_FETCH_NEW');
+
 export const moveToChannel = createAction('CURRENT_CHANNEL_CHANGE');
+
+export const openModal = createAction('MODAL_OPEN');
+export const closeModal = createAction('MODAL_CLOSE');
 
 
 export const sendMessage = ({ message }) => async (dispatch) => {
@@ -42,4 +50,12 @@ export const removeChannel = ({ id }) => async (dispatch) => {
   const data = { attributes: id };
   await axios.delete(`api/v1/channels/${id}`, { data });
   dispatch(removeChannelSuccess({ id }));
+};
+
+export const renameChannel = ({ channel }) => async (dispatch) => {
+  dispatch(removeChannelRequest());
+  const data = { attributes: channel };
+  const { id } = channel;
+  await axios.patch(`api/v1/channels/${id}`, { data });
+  dispatch(renameChannelSuccess());
 };

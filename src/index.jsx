@@ -53,8 +53,13 @@ socket.on('newChannel', ({ data }) => {
 });
 socket.on('removeChannel', ({ data }) => {
   const { id } = data;
-  const { fetchRemovedChannel } = actions;
-  store.dispatch(fetchRemovedChannel({ id }));
+  const { fetchRemovedChannelData } = actions;
+  store.dispatch(fetchRemovedChannelData({ id }));
+});
+socket.on('renameChannel', ({ data: { id, attributes } }) => {
+  const { name } = attributes;
+  const { fetchNewChannelName } = actions;
+  store.dispatch(fetchNewChannelName({ id, name }));
 });
 
 

@@ -2,23 +2,23 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { ListGroup } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 import * as actions from '../actions';
 
 const mapStateToProps = (state) => {
-  const { channels, currentChannelId } = state;
+  const { channels, currentChannelId, modal } = state;
   const { allIds, byId } = channels;
   return {
     channels: allIds.map(id => byId[id]),
     currentChannelId,
+    modal,
   };
 };
 
 const actionCreators = {
   addChannel: actions.addChannel,
   moveToChannel: actions.moveToChannel,
-  removeChannel: actions.removeChannel,
-  removeChannelFailure: actions.removeChannelFailure,
+  openModal: actions.openModal,
 };
 
 class ChannelsList extends React.Component {
@@ -28,15 +28,12 @@ class ChannelsList extends React.Component {
     moveToChannel({ id });
   }
 
-  handleRemove = id => async (e) => {
-    e.preventDefault();
-    const { removeChannel, removeChannelFailure } = this.props;
-    try {
-      await removeChannel({ id });
-    } catch (err) {
-      removeChannelFailure();
-    }
+
+  handleOpenModal = (id, name, action) => () => {
+    const { openModal } = this.props;
+    openModal({ data: { id, name, type: action } });
   }
+
 
   render() {
     const { channels, currentChannelId } = this.props;
@@ -44,6 +41,21 @@ class ChannelsList extends React.Component {
     if (channels.length === 0) {
       return null;
     }
+
+    const renderButtons = (id, name) => (
+      <div>
+        <FontAwesomeIcon
+          className="float-right ml-2"
+          icon={faTrashAlt}
+          onClick={this.handleOpenModal(id, name, 'remove')}
+        />
+        <FontAwesomeIcon
+          className="float-right"
+          icon={faEdit}
+          onClick={this.handleOpenModal(id, name, 'edit')}
+        />
+      </div>
+    );
 
     return (
       <div className="channels">
@@ -56,13 +68,7 @@ class ChannelsList extends React.Component {
                 onClick={this.handleClick(id)}
               >
                 {name}
-                {removable && (
-                <FontAwesomeIcon
-                  className="float-right"
-                  icon={faTrashAlt}
-                  onClick={this.handleRemove(id)}
-                />
-                )}
+                {removable && renderButtons(id, name)}
               </ListGroup.Item>
             </React.Fragment>
           ))}

@@ -29,6 +29,7 @@ export default ({ channels, messages, currentChannelId }) => {
   return {
     channels: normalizedChannels,
     messages: { byChannelId: normalizedMessages },
+    modal: { show: false, data: {} },
     currentChannelId,
   };
 };

@@ -3,6 +3,7 @@ import ChannelsList from './ChannelsList';
 import ChannelFeed from './ChannelFeed';
 import NewMessageForm from './NewMessageForm';
 import NewChannelForm from './NewChannelForm';
+import Modal from './Modal';
 
 const App = () => (
   <div className="row">
@@ -14,6 +15,7 @@ const App = () => (
       <NewMessageForm />
       <ChannelFeed />
     </div>
+    <Modal />
   </div>
 );
 export default App;

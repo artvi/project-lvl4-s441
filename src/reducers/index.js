@@ -36,11 +36,19 @@ const channels = handleActions({
       allIds: [...allIds, channel.id],
     };
   },
-  [actions.fetchRemovedChannel](state, { payload: { id } }) {
+  [actions.fetchRemovedChannelData](state, { payload: { id } }) {
     const { byId, allIds } = state;
     return {
       byId: _.omit(byId, id),
       allIds: allIds.filter(channelId => channelId !== id),
+    };
+  },
+  [actions.fetchNewChannelName](state, { payload: { id, name } }) {
+    const { byId } = state;
+    const current = byId[id];
+    return {
+      ...state,
+      byId: { ...byId, [id]: { ...current, name } },
     };
   },
 }, { byId: {}, allIds: [] });
@@ -63,7 +71,7 @@ const messages = handleActions({
       byChannelId: { ...byChannelId, [id]: [] },
     };
   },
-  [actions.fetchRemovedChannel](state, { payload: { id } }) {
+  [actions.fetchRemovedChannelData](state, { payload: { id } }) {
     const { byChannelId } = state;
     return {
       byChannelId: _.omit(byChannelId, id),
@@ -76,10 +84,19 @@ const currentChannelId = handleActions({
   [actions.moveToChannel](state, { payload: { id } }) {
     return id;
   },
-  [actions.fetchRemovedChannel](state, { payload: { id } }) {
+  [actions.fetchRemovedChannelData](state, { payload: { id } }) {
     return state === id ? 1 : state;
   },
 }, 1);
+
+const modal = handleActions({
+  [actions.openModal](state, { payload: { data } }) {
+    return { show: true, data };
+  },
+  [actions.closeModal]() {
+    return { show: false, data: {} };
+  },
+}, { show: false, data: {} });
 
 
 export default combineReducers({
@@ -88,5 +105,6 @@ export default combineReducers({
   channelAddingState,
   messageSendingState,
   currentChannelId,
+  modal,
   form: formReducer,
 });

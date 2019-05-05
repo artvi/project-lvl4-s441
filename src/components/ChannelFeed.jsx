@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Jumbotron } from 'react-bootstrap';
 
 const mapStateToProps = (state) => {
   const { currentChannelId, messages: { byChannelId } } = state;
@@ -18,19 +19,33 @@ class ChannelFeed extends React.PureComponent {
       return null;
     }
 
+    // return (
+    //   <div className="messages">
+    //     {messages.map(({ id, text, author }) => (
+    //       <React.Fragment key={id}>
+    //         <div>
+    //           <b>{`${author}`}</b>
+    //           <br />
+    //           {text}
+    //           <br />
+    //         </div>
+    //       </React.Fragment>
+    //     ))}
+    //   </div>
+    // );
+
     return (
-      <div className="messages">
+      <Jumbotron fluid>
         {messages.map(({ id, text, author }) => (
           <React.Fragment key={id}>
             <div>
               <b>{`${author}`}</b>
               <br />
-              {text}
-              <br />
+              <p>{text}</p>
             </div>
           </React.Fragment>
         ))}
-      </div>
+      </Jumbotron>
     );
   }
 }
