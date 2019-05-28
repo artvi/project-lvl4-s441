@@ -35,9 +35,10 @@ const store = createStore(
   ),
 );
 
-
-const userName = faker.name.findName();
-cookies.set('username', userName);
+if (!cookies.get('username')) {
+  const userName = faker.name.findName();
+  cookies.set('username', userName);
+}
 
 
 const socket = io();

@@ -1,6 +1,6 @@
 import { createAction } from 'redux-actions';
 import axios from 'axios';
-import getUrl from '../getUrl';
+import getUrl from '../route';
 
 
 export const sendMessageRequest = createAction('MESSAGE_SEND_REQUEST');
