@@ -1,21 +1,15 @@
 import React from 'react';
 import _ from 'lodash';
-import { connect } from 'react-redux';
 import { Form, InputGroup, Button } from 'react-bootstrap';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
-import * as actions from '../actions';
+import connect from '../connect';
 
 const mapStateToProps = (state) => {
   const { currentChannelId } = state;
   return { currentChannelId };
 };
 
-const actionCreators = {
-  addChannel: actions.addChannel,
-  addChannelFailure: actions.addChannelFailure,
-};
-
-@connect(mapStateToProps, actionCreators)
+@connect(mapStateToProps)
 @reduxForm({
   form: 'newChannel',
 })

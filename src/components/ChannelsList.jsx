@@ -1,9 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { ListGroup } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
-import * as actions from '../actions';
+import connect from '../connect';
 
 const mapStateToProps = (state) => {
   const { channels, currentChannelId, modal } = state;
@@ -15,13 +14,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const actionCreators = {
-  addChannel: actions.addChannel,
-  moveToChannel: actions.moveToChannel,
-  openModal: actions.openModal,
-};
-
-@connect(mapStateToProps, actionCreators)
+@connect(mapStateToProps)
 
 class ChannelsList extends React.Component {
   handleClick = id => (e) => {

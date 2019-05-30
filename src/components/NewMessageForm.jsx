@@ -1,22 +1,16 @@
 import React from 'react';
 import _ from 'lodash';
 import cookies from 'js-cookie';
-import { connect } from 'react-redux';
 import { Form, InputGroup, Button } from 'react-bootstrap';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
-import * as actions from '../actions';
+import connect from '../connect';
 
 const mapStateToProps = (state) => {
   const { currentChannelId } = state;
   return { currentChannelId };
 };
 
-const actionCreators = {
-  sendMessage: actions.sendMessage,
-  sendMessageFailure: actions.sendMessageFailure,
-};
-
-@connect(mapStateToProps, actionCreators)
+@connect(mapStateToProps)
 @reduxForm({
   form: 'newMessage',
 })

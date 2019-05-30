@@ -1,6 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { Jumbotron } from 'react-bootstrap';
+import connect from '../connect';
 
 const mapStateToProps = (state) => {
   const { currentChannelId, messages: { byChannelId } } = state;

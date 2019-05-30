@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import { connect } from 'react-redux';
-import * as actions from '../actions';
+import connect from '../connect';
 import NewChannelNameForm from './NewChannelNameForm';
 
 const mapStateToProps = (state) => {
@@ -9,14 +8,7 @@ const mapStateToProps = (state) => {
   return { ...modal };
 };
 
-const actionCreators = {
-  openModal: actions.openModal,
-  closeModal: actions.closeModal,
-  removeChannel: actions.removeChannel,
-  removeChannelFailure: actions.removeChannelFailure,
-};
-
-@connect(mapStateToProps, actionCreators)
+@connect(mapStateToProps)
 
 class MyModal extends React.Component {
   handleRemove = async (e) => {

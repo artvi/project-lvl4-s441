@@ -1,21 +1,14 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Form, InputGroup, Button } from 'react-bootstrap';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
-import * as actions from '../actions';
+import connect from '../connect';
 
 const mapStateToProps = (state) => {
   const { modal } = state;
   return { ...modal.data };
 };
 
-const actionCreators = {
-  renameChannel: actions.renameChannel,
-  renameChannelFailure: actions.renameChannelFailure,
-  closeModal: actions.closeModal,
-};
-
-@connect(mapStateToProps, actionCreators)
+@connect(mapStateToProps)
 
 @reduxForm({
   form: 'newChannelName',
