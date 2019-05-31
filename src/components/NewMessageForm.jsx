@@ -16,6 +16,11 @@ const mapStateToProps = (state) => {
 })
 
 class NewMessageForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.messageForm = React.createRef();
+  }
+
   handleSubmit = async (values) => {
     const {
       sendMessageFailure,
@@ -37,6 +42,7 @@ class NewMessageForm extends React.Component {
       throw new SubmissionError({ _error: err.message });
     }
     reset();
+    this.messageForm.current.getRenderedComponent().focus();
   }
 
   render() {
@@ -47,7 +53,7 @@ class NewMessageForm extends React.Component {
     return (
       <Form onSubmit={handleSubmit(this.handleSubmit)}>
         <InputGroup className="mb-3">
-          <Field placeholder=" Your message" className="form-control" component="input" name="text" disabled={submitting} />
+          <Field placeholder=" Your message" className="form-control" component="input" name="text" disabled={submitting} autoFocus ref={this.messageForm} forwardRef />
           <InputGroup.Append>
             <Button disabled={pristine || submitting} variant="outline-secondary" type="submit">Send</Button>
           </InputGroup.Append>

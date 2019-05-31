@@ -5,9 +5,9 @@ import _ from 'lodash';
 import * as actions from '../actions';
 
 const messageSendingState = handleActions({
-  [actions.sendMessageRequest]() {
-    return 'requested';
-  },
+  // [actions.sendMessageRequest]() {
+  //   return 'requested';
+  // },
   [actions.sendMessageSuccess]() {
     return 'success';
   },
