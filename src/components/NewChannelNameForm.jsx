@@ -14,7 +14,7 @@ const mapStateToProps = (state) => {
   form: 'newChannelName',
 })
 
-class NewChannelForm extends React.Component {
+class NewChannelNameForm extends React.Component {
   handleSubmit = async (values) => {
     const {
       renameChannel,
@@ -33,7 +33,6 @@ class NewChannelForm extends React.Component {
     }
     closeModal();
   }
-
 
   render() {
     const {
@@ -55,4 +54,4 @@ class NewChannelForm extends React.Component {
   }
 }
 
-export default NewChannelForm;
+export default NewChannelNameForm;

@@ -21,7 +21,6 @@ export const renameChannelFailure = createAction('CHANNEL_RENAME_FAILURE');
 
 export const fetchNewMessage = createAction('MESSAGE_FETCH');
 export const fetchNewChannel = createAction('CHANNEL_FETCH_NEW');
-export const fetchRemovedChannelData = createAction('CHANNEL_FETCH_REMOVED');
 export const fetchNewChannelName = createAction('CHANNEL_NAME_FETCH_NEW');
 
 export const moveToChannel = createAction('CURRENT_CHANNEL_CHANGE');

@@ -60,7 +60,7 @@ const channels = handleActions({
       allIds: [...allIds, channel.id],
     };
   },
-  [actions.fetchRemovedChannelData](state, { payload: { id } }) {
+  [actions.removeChannelSuccess](state, { payload: { id } }) {
     const { byId, allIds } = state;
     return {
       byId: _.omit(byId, id),
@@ -95,7 +95,7 @@ const messages = handleActions({
       byChannelId: { ...byChannelId, [id]: [] },
     };
   },
-  [actions.fetchRemovedChannelData](state, { payload: { id } }) {
+  [actions.removeChannelSuccess](state, { payload: { id } }) {
     const { byChannelId } = state;
     return {
       byChannelId: _.omit(byChannelId, id),
@@ -108,7 +108,7 @@ const currentChannelId = handleActions({
   [actions.moveToChannel](state, { payload: { id } }) {
     return id;
   },
-  [actions.fetchRemovedChannelData](state, { payload: { id } }) {
+  [actions.removeChannelSuccess](state, { payload: { id } }) {
     return state === id ? 1 : state;
   },
 }, 1);
