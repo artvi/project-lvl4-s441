@@ -5,9 +5,6 @@ import _ from 'lodash';
 import * as actions from '../actions';
 
 const messageSendingState = handleActions({
-  [actions.sendMessageRequest]() {
-    return 'requested';
-  },
   [actions.sendMessageSuccess]() {
     return 'success';
   },
@@ -17,9 +14,6 @@ const messageSendingState = handleActions({
 }, 'none');
 
 const channelAddingState = handleActions({
-  [actions.addChannelRequest]() {
-    return 'requested';
-  },
   [actions.addChannelSuccess]() {
     return 'success';
   },
@@ -29,9 +23,6 @@ const channelAddingState = handleActions({
 }, 'none');
 
 const channelRenamingState = handleActions({
-  [actions.renameChannelRequest]() {
-    return 'requested';
-  },
   [actions.renameChannelSuccess]() {
     return 'success';
   },
